@@ -1,0 +1,116 @@
+<div class="animated slideInLeft">
+
+    <div class="row">
+        <img class="center-block" ng-src="{{proveedor.Url}}" width="200px" height="100px"></img>
+        <div class="col-sm-10">
+            <br>
+            <br>
+            <ol class="breadcrumb">
+                <li><a href="#/publicidad">Proveedores</a></li>
+                <li><a href="#/publicidad/{{proveedor.id}}/categoria">{{proveedor.nombre}}</a></li>
+                <li>{{categoriaProveedor.nombre}}</li>
+            </ol>
+            <h2>Cree, Edite o Elimine Publicidad de {{proveedor.nombre}} </h2>
+        </div>
+        <div class="col-sm-2">
+            <br>
+            <br>
+            <div class="btn btn-info" ng-click="ocultarBotonPublicidad()" ng-hide="botones.publicidad">Agregar Publicidad</div>
+            <div class="btn btn-warning" ng-click="ocultarBotonPublicidad()" ng-show="botones.publicidad">Ocultar</div>
+        </div>
+    </div>
+    <div class="row animated noticiaSlideInRight" ng-show="botones.publicidad" style="background-color:white;">
+        <form ng-submit="crearPublicidad()" name="publicidadForm">
+            <!--          NOMBRE-->
+            <div ng-show="publicidadForm.$submitted || publicidadForm.nombre.$touched">
+                <div ng-show="publicidadForm.nombre.$error.required" class="alert alert-danger animated bounceIn" role="alert">
+                    <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                    <span class="sr-only">Error:</span> Ingrese un NOMBRE.
+                </div>
+                <div ng-show="(publicidadForm.nombre.$error.minlength || publicidadForm.nombre.$error.maxlength)" class="alert alert-warning animated bounceIn" role="alert">
+                    <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                    <span class="sr-only">Error:</span> El NOMBRE debe de tener de 2 a 40 caracteres.
+                </div>
+            </div>
+
+            <!--          URL-->
+            <div ng-show="publicidadForm.$submitted || publicidadForm.url.$touched">
+                <div ng-show="publicidadForm.url.$error.required" class="alert alert-danger animated bounceIn" role="alert">
+                    <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                    <span class="sr-only">Error:</span> Ingrese un URL.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="nombre">Nombre Publicidad</label>
+                <input required ng-minlength="2" ng-maxlength="40" class="form-control" type="text" name="nombre" placeholder="Nombre Publicidad" ng-model="nuevoPublicidad.nombre">
+            </div>
+
+            <div class="form-group">
+                <label for="tipo">Imagen URL</label>
+                <input required class="form-control" type="text" name="url" placeholder="Imagen URL" ng-model="nuevoPublicidad.url">
+            </div>
+            
+            <button ng-disabled="publicidadForm.$invalid" type="submit" class="btn btn-primary btn-block">Crear</button>
+
+        </form>
+        <br>
+        <br>
+    </div>
+    <div class="row">
+        <div style=" height: 300px; overflow-y: scroll;">
+
+
+            <h2>Tabla de Publicidades</h2>
+            <table class="table table-bordered table-hover table-condensed">
+                <tr style="font-weight: bold; text-align: center;">
+                    <td>Nombre</td>
+                    <td>URL</td>
+                    <td>Editar</td>
+                    <td>Gestionar Publicidad</td>
+                </tr>
+                <tr ng-repeat="publicidad in publicidades">
+
+                    <td>
+                        <span editable-textarea="publicidad.nombre" e-name="nombre" e-form="editPubliform" e-required>
+                          {{ publicidad.nombre || 'Nombre Vacio' }} {{publicidad.id}}
+                        </span>
+                    </td>
+                    <td>
+                        <span editable-text="publicidad.url" e-name="url" e-form="editPubliform" e-required>
+                         <img ng-src="{{publicidad.url}}" width=100% height=100px></img>
+                        </span>
+                    </td>
+                    <td style="white-space: nowrap">
+                        <div ng-show="editPubliform.$visible">
+                            <form editable-form name="editPubliform" class="form-buttons form-inline" shown="inserted == publicidad" onaftersave="actualizarPublicidad(publicidad)">
+                                <button type="submit" ng-disabled="editPubliform.$waiting" class="btn btn-primary btn-xs">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </button>
+
+                            </form>
+                            <button class="btn btn-danger btn-xs" ng-disabled="editPubliform.$waiting" ng-click="borrarPublicidad(publicidad.id)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+
+                            <button type="button" ng-disabled="editPubliform.$waiting" ng-click="editPubliform.$cancel()" class="btn btn-default btn-xs">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </button>
+                        </div>
+
+                        <div class="buttons" ng-show="!editPubliform.$visible">
+                            <button class="btn btn-primary btn-xs" ng-click="editPubliform.$show()"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+
+                        </div>
+                    </td>
+                    <td width="10%">
+                        <a href="#/publicidad/{{proveedor.id}}/categoria/{{categoriaProveedor.id}}/gestion/{{publicidad.id}}">
+                            <div class="btn btn-info btn-sm btn-block">Gestionar Publicidad</div>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+</div>

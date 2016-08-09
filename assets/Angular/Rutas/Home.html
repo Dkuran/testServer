@@ -1,0 +1,529 @@
+<div class="row animated bounceInLeft">
+    <div class="col-sm-12">
+        <h1>Admin Page</h1>
+
+
+
+
+
+        <div class="violeta-border">
+            <div class="padding">
+
+                <div class="row">
+                    <div class="col-sm-10">
+                        <h1 class="violeta">Intereses</h1>
+                        <h2 class="violeta">Seleccione un interes o cree nuevos intereses.</h2>
+                    </div>
+                    <div class="col-sm-2">
+
+                        <br>
+                        <br>
+                        <button class="btn btn-warning" ng-click="ocultarAnadir()" ng-hide="botonOcultar">Ocultar</button>
+                        <button class="btn btn-success violeta-bg" ng-click="ocultarAnadir()" ng-show="botonOcultar">Añadir Interes</button>
+
+                    </div>
+                </div>
+                <div class="row animated noticiaSlideInRight" ng-hide="botonOcultar" style="background-color:white;">
+                    <h2>Crear Interes</h2>
+                    <form ng-submit="crearInteres()" name="interesForm">
+                        <!--          NOMBRE-->
+                        <div ng-show="interesForm.$submitted || interesForm.nombre.$touched">
+                            <div ng-show="interesForm.nombre.$error.required" class="alert alert-danger animated bounceIn" role="alert">
+                                <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                                <span class="sr-only">Error:</span> Ingrese un NOMBRE.
+                            </div>
+                            <div ng-show="(interesForm.nombre.$error.minlength || interesForm.nombre.$error.maxlength)" class="alert alert-warning animated bounceIn" role="alert">
+                                <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                                <span class="sr-only">Error:</span> El NOMBRE debe de tener de 3 a 20 caracteres.
+                            </div>
+                        </div>
+
+                        <!--          TIPO-->
+                        <div ng-show="interesForm.$submitted || interesForm.tipo.$touched">
+                            <div ng-show="interesForm.tipo.$error.required" class="alert alert-danger animated bounceIn" role="alert">
+                                <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                                <span class="sr-only">Error:</span> Ingrese un TIPO.
+                            </div>
+                            <div ng-show="(interesForm.tipo.$error.minlength || interesForm.tipo.$error.maxlength)" class="alert alert-warning animated bounceIn" role="alert">
+                                <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                                <span class="sr-only">Error:</span> El TIPO debe de tener de 3 a 20 caracteres.
+                            </div>
+                        </div>
+
+                        <!--          ICONO-->
+                        <div ng-show="interesForm.$submitted || interesForm.icono.$touched">
+                            <div ng-show="interesForm.icono.$error.required" class="alert alert-danger animated bounceIn" role="alert">
+                                <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                                <span class="sr-only">Error:</span> Ingrese un ICONO.
+                            </div>
+                            <div ng-show="(interesForm.icono.$error.minlength || interesForm.icono.$error.maxlength)" class="alert alert-warning animated bounceIn" role="alert">
+                                <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                                <span class="sr-only">Error:</span> El ICONO debe de tener de 3 a 30 caracteres.
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="nombre">Nombre Interes</label>
+                            <input required ng-minlength="3" ng-maxlength="30" class="form-control" type="text" name="nombre" placeholder="Nombre Interes" ng-model="nuevoInteres.nombre">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Tipo</label>
+                            <input ng-minlength="2" ng-maxlength="30" class="form-control" type="text" name="tipo" placeholder="Tipo Interes" ng-model="nuevoInteres.tipo">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Icono</label>
+                            <input required ng-minlength="3" ng-maxlength="30" class="form-control" type="text" name="icono" placeholder="Icono Interes" ng-model="nuevoInteres.icono">
+                        </div>
+                        <button ng-disabled="interesForm.$invalid" type="submit" class="btn btn-primary btn-block">Crear</button>
+                    </form>
+
+                </div>
+
+                <br>
+                <br>
+                <div style=" height: 300px; overflow-y: scroll;">
+
+
+
+                    <table class="table table-bordered table-hover table-condensed">
+                        <tr style="font-weight: bold; text-align: center;">
+                            <td class="violeta-bg-w">Nombre</td>
+                            <td class="violeta-bg-w">Tipo</td>
+                            <td class="violeta-bg-w">Icono</td>
+                            <td class="violeta-bg-w">Editar</td>
+                            <th class="violeta-bg-w">Feeds</th>
+                            <th class="violeta-bg-w">Preguntas</th>
+
+                        </tr>
+                        <tr ng-repeat="interes in intereses" ng-click="actualizarIndiceActual($index)">
+
+                            <td>
+                                <span editable-text="interes.nombre" e-name="nombre" e-form="rowform" e-required>
+                          {{ interes.nombre || 'Nombre Vacio' }}
+                        </span>
+                            </td>
+                            <td>
+                                <span editable-text="interes.tipo" e-name="tipo" e-form="rowform" e-required>
+                          {{ interes.tipo || 'Tipo Vacio' }}
+                        </span>
+                                <td>
+                                    <span editable-text="interes.icono" e-name="icono" e-form="rowform" e-required>
+                          <i class="fa {{interes.icono}}" aria-hidden="true"></i>
+                        </span>
+                                </td>
+                                <td style="white-space: nowrap">
+                                    <div ng-show="rowform.$visible">
+                                        <form editable-form name="rowform" class="form-buttons form-inline" shown="inserted == interes" onaftersave="actualizarInteres(interes)">
+                                            <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-xs">
+                                                <i class="fa fa-check" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-xs" ng-click="borrarInteres(interes.id)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                        </form>
+
+
+                                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default btn-xs">
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="buttons" ng-show="!rowform.$visible">
+                                        <button class="btn btn-primary btn-xs violeta-bg" ng-click="rowform.$show()"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+
+                                    </div>
+                                </td>
+                                <td><span class="badge violeta-bg">{{interes.feeds.length}}</span></td>
+                                <td><span class="badge violeta-bg">{{interes.preguntasInteres.length}}</span></td>
+
+
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+
+
+        </div>
+        <br>
+        <br>
+        <br>
+        <uib-tabset active="active1">
+
+            <uib-tab index="1" heading="Feeds">
+                <div class="animated slideInRight tomate-border">
+                    <div class="padding">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h1 class="tomate">Feeds {{interesActual.nombre}}</h1>
+                                <h2 class="tomate">Edite, Elimine o Cree nuevos Feeds</h2>
+                                <!--<button ng-click="borrarInteres()" class="btn btn-block btn-danger">Eliminar interes {{interesActual.nombre | uppercase}}</button>-->
+
+                            </div>
+                            <div class="col-sm-2">
+                                <br>
+                                <button class="btn btn-warning" ng-click="ocultarProveedor()" ng-hide="formProveedor">Ocultar</button>
+                                <button class="btn btn-success tomate-bg" ng-click="ocultarProveedor()" ng-show="formProveedor">Añadir Feeds</button>
+                            </div>
+                        </div>
+                        <div class="row  animated noticiaSlideInRight" ng-hide="formProveedor" style="background-color:white;">
+                            <h2>Crear Provedores RSSS</h2>
+                            <form ng-submit="crearFeed()" name="proveedorForm">
+                                <!--          PREGUNTA-->
+                                <div ng-show="proveedorForm.$submitted || proveedorForm.pregunta.$touched">
+
+                                    <div ng-show="proveedorForm.nombreProveedorRSS.$error.required" class="alert alert-danger animated bounceIn" role="alert">
+                                        <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                                        <span class="sr-only">Error:</span> Ingrese un Nombre Proveedor.
+                                    </div>
+                                    <div ng-show="(proveedorForm.nombreProveedorRSS.$error.minlength || proveedorForm.nombreProveedorRSS.$error.maxlength)" class="alert alert-warning animated bounceIn" role="alert">
+                                        <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                                        <span class="sr-only">Error:</span> El Nombre Proveedor debe de tener de 3 a 20 caracteres.
+                                    </div>
+                                </div>
+
+                                <!--          TIPO-->
+                                <div ng-show="proveedorForm.$submitted || proveedorForm.tipo.$touched">
+                                    <div ng-show="(proveedorForm.descripcion.$error.minlength || proveedorForm.descripcion.$error.maxlength)" class="alert alert-warning animated bounceIn" role="alert">
+                                        <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                                        <span class="sr-only">Error:</span> El TIPO debe de tener de 3 a 20 caracteres.
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="nombre">Nombre Proveedor</label>
+                                    <input required ng-minlength="3" ng-maxlength="255" class="form-control" type="text" name="nombreProveedorRSS" placeholder="Pregunta" ng-model="nuevoFeed.nombreProveedorRSS">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="nombre">Descripcion</label>
+                                    <input ng-minlength="6" ng-maxlength="255" class="form-control" type="text" name="descripcion" placeholder="Descripcion" ng-model="nuevoFeed.descripcion">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="nombre">URL</label>
+                                    <input ng-minlength="6" ng-maxlength="255" class="form-control" type="text" name="url" placeholder="Descripcion" ng-model="nuevoFeed.url">
+                                </div>
+
+                                <button ng-disabled="proveedorForm.$invalid" type="submit" class="btn btn-primary btn-block">Crear</button>
+                            </form>
+                        </div>
+                        <br>
+                        <br>
+                        <table class="table table-condensed">
+                            <tr>
+                                <th class="tomate-bg-w">Nombre Proveedor RSS</th>
+                                <th class="tomate-bg-w">Descripcion</th>
+                                <th class="tomate-bg-w">URL</th>
+                                <th class="tomate-bg-w">Editar</th>
+                            </tr>
+                            <tr ng-repeat="interes in interesActual.feeds">
+                                <!--<td>{{interes.nombreProveedorRSS}}</td><-->
+                                <!-- <td>{{interes.descripcion}}</td><-->
+                                <!--  <td>{{interes.url}}</td><-->
+
+
+
+
+                                <td>
+                                    <span editable-text="interes.nombreProveedorRSS" e-name="nombreProveedorRSS" e-form="rowform" e-required>
+                          {{ interes.nombreProveedorRSS || 'Nombre Vacio' }}
+                        </span>
+                                </td>
+                                <td>
+                                    <span editable-text="interes.descripcion" e-name="descripcion" e-form="rowform" e-required>
+                          {{ interes.descripcion || 'Nombre Vacio' }}
+                        </span>
+                                </td>
+                                <td>
+                                    <span editable-text="interes.url" e-name="url" e-form="rowform" e-required>
+                          {{ interes.url|| 'Nombre Vacio' }}
+                        </span>
+                                </td>
+
+                                <td>
+                                    <div ng-show="rowform.$visible">
+                                        <form editable-form name="rowform" class="form-buttons form-inline" shown="inserted == interes" onaftersave="actualizarFeedInteres(interes)">
+                                            <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-xs">
+                                                <i class="fa fa-check" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-xs" ng-click="borrarFeed(interes.id)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                        </form>
+
+
+                                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default btn-xs">
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="buttons" ng-show="!rowform.$visible">
+                                        <button class="btn btn-primary btn-xs tomate-bg" ng-click="rowform.$show()"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+
+                                    </div>
+                                </td>
+
+                            </tr>
+
+
+
+
+                        </table>
+                    </div>
+
+                </div>
+            </uib-tab>
+            <uib-tab index="2" heading="Preguntas">
+                <div class="animated slideInRight verde-border">
+                    <div class="padding">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <h1 class="verde">Preguntas  {{interesActual.nombre}}</h1>
+
+                                <h2 class="verde">Edite, Elimine o Cree nuevas Preguntas</h2>
+
+                            </div>
+                            <div class="col-md-2">
+                                <br>
+                                <button class="btn btn-warning" ng-click="ocultarPreguntas()" ng-hide="formPreguntas">Ocultar</button>
+                                <button class="btn btn-success verde-bg" ng-click="ocultarPreguntas()" ng-show="formPreguntas">Añadir Preguntas</button>
+                            </div>
+                        </div>
+
+                        <div class="row animated noticiaSlideInRight" ng-hide="formPreguntas" style="background-color:white;">
+                            <h2>Crear Preguntas de Usuario</h2>
+                            <form ng-submit="crearPregunta()" name="preguntaInteres">
+                                <!--          PREGUNTA-->
+                                <div ng-show="preguntaInteres.$submitted || preguntaInteres.pregunta.$touched">
+                                    <div ng-show="preguntaInteres.pregunta.$error.required" class="alert alert-danger animated bounceIn" role="alert">
+                                        <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                                        <span class="sr-only">Error:</span> Ingrese un NOMBRE.
+                                    </div>
+                                    <div ng-show="(preguntaInteres.pregunta.$error.minlength || preguntaInteres.pregunta.$error.maxlength)" class="alert alert-warning animated bounceIn" role="alert">
+                                        <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                                        <span class="sr-only">Error:</span> El NOMBRE debe de tener de 3 a 20 caracteres.
+                                    </div>
+                                </div>
+
+                                <!--          TIPO-->
+                                <div ng-show="preguntaInteres.$submitted || preguntaInteres.tipo.$touched">
+                                    <div ng-show="(preguntaInteres.descripcion.$error.minlength || preguntaInteres.descripcion.$error.maxlength)" class="alert alert-warning animated bounceIn" role="alert">
+                                        <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                                        <span class="sr-only">Error:</span> El TIPO debe de tener de 3 a 20 caracteres.
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="nombre">Pregunta</label>
+                                    <input required ng-minlength="3" ng-maxlength="255" class="form-control" type="text" name="pregunta" placeholder="Pregunta" ng-model="nuevaPregunta.pregunta">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="nombre">Descripcion</label>
+                                    <input ng-minlength="6" ng-maxlength="255" class="form-control" type="text" name="descripcion" placeholder="Descripcion" ng-model="nuevaPregunta.descripcion">
+                                </div>
+
+                                <div class="form-group">
+                                    <select class="form-control" name="tipo" ng-model="nuevaPregunta.tipo">
+                                        <option ng-repeat="tipo in tipoPreguntas2" value="{{tipo}}">{{tipo}}</option>
+                                    </select>
+                                </div>
+                                <button ng-disabled="preguntaInteres.$invalid" type="submit" class="btn btn-primary btn-block">Crear</button>
+                            </form>
+
+                        </div>
+                        <br>
+
+                        <table class="table table-condensed">
+                            <tr>
+                                <th class="verde-bg-w">Pregunta</th>
+                                <th class="verde-bg-w">Descripcion</th>
+                                <th class="verde-bg-w">Tipo</th>
+                                <th class="verde-bg-w">Editar</th>
+                            </tr>
+                            <tr ng-repeat="interes in interesActual.preguntasInteres">
+
+                                <td>
+                                    <span editable-text="interes.pregunta" e-name="pregunta" e-form="rowform" e-required>
+                          {{ interes.pregunta|| 'Nombre Vacio' }}
+                        </span>
+                                </td>
+                                <td>
+                                    <span editable-text="interes.descripcion" e-name="descripcion" e-form="rowform" e-required>
+                          {{ interes.descripcion|| 'Nombre Vacio' }}
+                        </span>
+                                </td>
+                                <td>
+
+
+
+
+                                    <span editable-select="interes.tipo" e-name="tipo" e-form="rowform" e-ng-options=" s for s in tipoPreguntas2" e-required>
+                          {{ interes.tipo || 'Nombre Vacio' }}
+                         
+                        
+                        </span>
+                                </td>
+
+                                <td>
+                                    <div ng-show="rowform.$visible">
+                                        <form editable-form name="rowform" class="form-buttons form-inline" shown="inserted == interes" onaftersave="actualizarPreguntaInteres(interes)">
+                                            <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-xs">
+                                                <i class="fa fa-check" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-xs" ng-click="borrarPregunta(interes.id)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                        </form>
+
+
+                                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default btn-xs">
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="buttons" ng-show="!rowform.$visible">
+                                        <button class="btn btn-primary btn-xs verde-bg" ng-click="rowform.$show()"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+
+                                    </div>
+                                </td>
+
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+            </uib-tab>
+            <uib-tab index="3" heading="ChatRobot">
+                <div class="animated slideInRight rojo-border">
+                    <div class="padding">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <h1 class="rojo">Chat  {{interesActual.nombre}}</h1>
+
+                                <h2 class="rojo">Edite, Elimine o Cree nuevas Preguntas y Respuestas en ChatRobot</h2>
+
+                            </div>
+                            <div class="col-md-2">
+                                <br>
+                                <button class="btn btn-warning" ng-click="ocultarChat()" ng-hide="formChat">Ocultar</button>
+                                <button class="btn btn-success rojo-bg" ng-click="ocultarChat()" ng-show="formChat">Añadir</button>
+                            </div>
+                        </div>
+
+                        <div class="row animated noticiaSlideInRight" ng-hide="formChat" style="background-color:white;">
+                            <h2>Crear Preguntas y Respuestas</h2>
+                            <form ng-submit="crearChatRobot()" name="chatForm">
+                                <!--          PREGUNTA-->
+                                <div ng-show="chatForm.$submitted || chatForm.nombre.$touched">
+                                    <div ng-show="chatForm.nombre.$error.required" class="alert alert-danger animated bounceIn" role="alert">
+                                        <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                                        <span class="sr-only">Error:</span> Ingrese un Pregunta.
+                                    </div>
+                                    <div ng-show="(chatForm.nombre.$error.minlength || chatForm.nombre.$error.maxlength)" class="alert alert-warning animated bounceIn" role="alert">
+                                        <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                                        <span class="sr-only">Error:</span> La PREGUNTA debe de tener de 10 a 20 caracteres.
+                                    </div>
+                                </div>
+
+                                <!--          RESPUESTA-->
+                                <div ng-show="chatForm.$submitted || chatForm.tipo.$touched">
+                                    <div ng-show="chatForm.tipo.$error.required" class="alert alert-danger animated bounceIn" role="alert">
+                                        <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                                        <span class="sr-only">Error:</span> Ingrese una RESPUESTA.
+                                    </div>
+                                    <div ng-show="(chatForm.tipo.$error.minlength || chatForm.tipo.$error.maxlength)" class="alert alert-warning animated bounceIn" role="alert">
+                                        <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                                        <span class="sr-only">Error:</span> El TIPO debe de tener de 3 a 20 caracteres.
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="nombre">Pregunta</label>
+                                    <input required ng-minlength="10" ng-maxlength="255" class="form-control" type="text" name="pregunta" placeholder="Pregunta" ng-model="nuevoChat.pregunta">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="nombre">Respuesta</label>
+                                    <input ng-minlength="6" ng-maxlength="255" class="form-control" type="text" name="respuesta" placeholder="Respuesta" ng-model="nuevoChat.respuesta">
+                                </div>
+
+                                <button ng-disabled="chatForm.$invalid" type="submit" class="btn btn-primary btn-block">Crear</button>
+
+                            </form>
+
+                        </div>
+
+                        <br>
+                        <br>
+
+                        <table class="table table-condensed">
+                            <tr>
+                                <th class="rojo-bg-w">Pregunta</th>
+                                <th class="rojo-bg-w">Respuesta</th>
+                                <th class="rojo-bg-w">Editar</th>
+
+                            </tr>
+                            <tr ng-repeat="interes in interesActual.preguntasChat">
+
+                                <td>
+                                    <span editable-text="interes.pregunta" e-name="pregunta" e-form="rowform" e-required>
+                          {{ interes.pregunta|| 'Nombre Vacio' }}
+                        </span>
+                                </td>
+                                <td>
+                                    <span editable-text="interes.respuesta" e-name="respuesta" e-form="rowform" e-required>
+                          {{ interes.respuesta|| 'Nombre Vacio' }}
+                        </span>
+                                </td>
+
+
+                                <td>
+                                    <div ng-show="rowform.$visible">
+                                        <form editable-form name="rowform" class="form-buttons form-inline" shown="inserted == interes" onaftersave="actualizarChat(interes)">
+                                            <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-xs">
+                                                <i class="fa fa-check" aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-xs" ng-click="borrarChat(interes.id)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                        </form>
+
+
+                                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default btn-xs">
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="buttons" ng-show="!rowform.$visible">
+                                        <button class="btn btn-primary btn-xs rojo-bg" ng-click="rowform.$show()"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+
+                                    </div>
+                                </td>
+
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+
+            </uib-tab>
+        </uib-tabset>
+
+        <br>
+
+
+    </div>
+    <!--<div class="col-sm-1"></div>-->
+    <div class="col-sm-7">
+        <div class="row">
+            <div class="col-sm-12">
+
+            </div>
+            <div class="col-sm-12">
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+</div>

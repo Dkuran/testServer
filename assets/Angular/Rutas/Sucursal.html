@@ -1,0 +1,130 @@
+<div class="animated slideInLeft">
+
+    <div class="row">
+        <img class="center-block" ng-src="{{proveedor.Url}}" width="200px" height="100px"></img>
+        <div class="col-sm-10">
+            <br>
+            <br>
+            <ol class="breadcrumb">
+                <li><a href="#/publicidad">Proveedores</a></li>
+                <li>{{proveedor.nombre}}</li>
+            </ol>
+            <h2>Cree, Edite o Elimine Sucursales</h2>
+        </div>
+        <div class="col-sm-2">
+            <br>
+            <br>
+            <div class="btn btn-info" ng-click="ocultarBotonSucursal()" ng-hide="botones.sucursal">Agregar Sucursal</div>
+            <div class="btn btn-warning" ng-click="ocultarBotonSucursal()" ng-show="botones.sucursal">Ocultar</div>
+        </div>
+    </div>
+    <div class="row animated noticiaSlideInRight" ng-show="botones.sucursal" style="background-color:white;">
+        <form ng-submit="crearSucursal()" name="sucursalForm">
+            <!--          NOMBRE-->
+            <div ng-show="sucursalForm.$submitted || sucursalForm.nombre.$touched">
+                <div ng-show="sucursalForm.nombre.$error.required" class="alert alert-danger animated bounceIn" role="alert">
+                    <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                    <span class="sr-only">Error:</span> Ingrese un NOMBRE.
+                </div>
+                <div ng-show="(sucursalForm.nombre.$error.minlength || sucursalForm.nombre.$error.maxlength)" class="alert alert-warning animated bounceIn" role="alert">
+                    <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                    <span class="sr-only">Error:</span> El NOMBRE debe de tener de 2 a 40 caracteres.
+                </div>
+            </div>
+
+            <!--          Geolocalizacion x-->
+            <div ng-show="sucursalForm.$submitted || sucursalForm.geolocalizacionX.$touched">
+                <div ng-show="sucursalForm.geolocalizacionX.$error.required" class="alert alert-danger animated bounceIn" role="alert">
+                    <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                    <span class="sr-only">Error:</span> Ingrese la Geolocalización en X.
+                </div>
+            </div>
+            
+            <!--          Geolocalizacion y-->
+            <div ng-show="sucursalForm.$submitted || sucursalForm.geolocalizacionY.$touched">
+                <div ng-show="sucursalForm.geolocalizacionY.$error.required" class="alert alert-danger animated bounceIn" role="alert">
+                    <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                    <span class="sr-only">Error:</span> Ingrese la Geolocalización en Y.
+                </div>
+            </div>
+            
+
+            <div class="form-group">
+                <label for="nombre">Nombre Categoria</label>
+                <input required ng-minlength="2" ng-maxlength="40" class="form-control" type="text" name="nombre" placeholder="Nombre Categoria" ng-model="nuevoSucursal.nombre">
+            </div>
+            
+            <div class="form-group">
+                <label for="nombre">Geolocalizacion X</label>
+                <input required ng-minlength="2" ng-maxlength="40" class="form-control" type="text" name="geolocalizacionX" placeholder="Geolocalizacion X" ng-model="nuevoSucursal.geolocalizacionX">
+            </div>
+            
+            <div class="form-group">
+                <label for="nombre">Geolocalizacion Y</label>
+                <input required ng-minlength="2" ng-maxlength="40" class="form-control" type="text" name="geolocalizacionY" placeholder="Geolocalizacion Y" ng-model="nuevoSucursal.geolocalizacionY">
+            </div>
+
+            <button ng-disabled="sucursalForm.$invalid" type="submit" class="btn btn-primary btn-block">Crear</button>
+
+        </form>
+        <br>
+        <br>
+    </div>
+    <div class="row">
+        <div style=" height: 300px; overflow-y: scroll;">
+
+
+            <h2>Tabla de Sucursales</h2>
+            <table class="table table-bordered table-hover table-condensed">
+                <tr style="font-weight: bold; text-align: center;">
+                    <td>Nombre</td>
+                    <td>Geolocalizacion X</td>
+                    <td>Geolocalizacion Y</td>
+                    <td>Editar</td>
+                </tr>
+                <tr ng-repeat="sucursal in sucursales">
+
+                    <td>
+                        <span editable-textarea="sucursal.nombre" e-name="nombre" e-form="editSucurform" e-required>
+                          {{ sucursal.nombre || 'Nombre Vacio' }}
+                        </span>
+                    </td>
+                    <td>
+                        <span editable-text="sucursal.geolocalizacionX" e-name="geolocalizacionX" e-form="editSucurform" e-required>
+                          {{ sucursal.geolocalizacionX || 'Geo X Vacio' }}
+                        </span>
+                    </td>
+                    
+                    <td>
+                        <span editable-text="sucursal.geolocalizacionY" e-name="geolocalizacionY" e-form="editSucurform" e-required>
+                          {{ sucursal.geolocalizacionY || 'Geon Y Vacio' }}
+                        </span>
+                    </td>
+                    <td style="white-space: nowrap">
+                        <div ng-show="editSucurform.$visible">
+                            <form editable-form name="editSucurform" class="form-buttons form-inline" shown="inserted == sucursal" onaftersave="actualizarSucursal(sucursal)">
+                                <button type="submit" ng-disabled="editSucurform.$waiting" class="btn btn-primary btn-xs">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </button>
+
+                            </form>
+                            <button class="btn btn-danger btn-xs" ng-disabled="editSucurform.$waiting" ng-click="borrarSucursal(sucursal.id)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+
+                            <button type="button" ng-disabled="editSucurform.$waiting" ng-click="editSucurform.$cancel()" class="btn btn-default btn-xs">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </button>
+                        </div>
+
+                        <div class="buttons" ng-show="!editSucurform.$visible">
+                            <button class="btn btn-primary btn-xs" ng-click="editSucurform.$show()"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+</div>

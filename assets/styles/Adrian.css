@@ -1,0 +1,116 @@
+.noticiaSlideInRight.ng-hide-animate,
+.noticiaSlideInRight.ng-hide-add,
+.noticiaSlideInRight.ng-hide {
+  /* 200ms will be applied between each sucessive enter operation */
+  -webkit-transition-delay:0.2s;
+  transition-delay:0.2s;
+}
+
+
+.noticiaSlideInRight.ng-hide-add {
+    -webkit-animation-name: slideOutUp;
+  animation-name: slideOutUp;
+}
+
+
+.noticiaSlideInRight.ng-hide-remove {
+  
+
+  -webkit-animation-name: slideInLeft;
+  animation-name: slideInLeft;
+}
+/*
+Romina Violacia
+*/
+.violeta{
+    color:#7052B1;
+}
+
+.violeta-bg{
+    background-image: linear-gradient(#7052B1, #7052B1 60%, #7052B1);
+    border: 1px solid #7052B1;
+}
+
+.violeta-bg-w{
+    background-image: linear-gradient(#7052B1, #7052B1 60%, #7052B1);
+    border: 1px solid #7052B1;
+    color:white;
+}
+
+.violeta-border{
+    border-color: #7052B1;
+    border-style: double;
+    padding: 10px;
+}
+
+    
+.rojo{
+    color:#FD676B;
+}
+
+.rojo-bg{
+    background-image: linear-gradient(#FD676B, #FD676B 60%, #FD676B);
+    border: 1px solid #FD676B;
+}
+
+.rojo-bg-w{
+    background-image: linear-gradient(#FD676B, #FD676B 60%, #FD676B);
+    border: 1px solid #FD676B;
+    color:white;
+}
+
+.rojo-border{
+    border-color: #FD676B;
+    border-style: double;
+    padding: 10px;
+}
+
+
+
+.verde{
+    color:#C1EF61;
+}
+
+.verde-bg{
+    background-image: linear-gradient(#C1EF61, #C1EF61 60%, #C1EF61);
+    border: 1px solid #C1EF61;
+}
+
+.verde-bg-w{
+    background-image: linear-gradient(#C1EF61, #C1EF61 60%, #C1EF61);
+    border: 1px solid #C1EF61;
+    color:white;
+}
+
+
+.verde-border{
+    border-color: #C1EF61;
+    border-style: double;
+    padding: 10px;
+}
+
+.tomate{
+    color:#FFAB68;
+}
+
+.tomate-bg{
+    background-image: linear-gradient(#FFAB68, #FFAB68 60%, #FFAB68);
+    border: 1px solid #FFAB68;
+}
+
+
+.tomate-bg-w{
+    background-image: linear-gradient(#FFAB68, #FFAB68 60%, #FFAB68);
+    border: 1px solid #FFAB68;
+    color:white;
+}
+
+.tomate-border{
+    border-color: #FFAB68;
+    border-style: double;
+    padding: 10px;
+}
+
+.padding{
+    padding: 20px;
+}

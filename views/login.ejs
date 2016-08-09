@@ -1,0 +1,27 @@
+ <div class="container" ng-app="coachrobotlogin">
+  <div class="row" ng-controller="LoginCtrl">
+
+    <div class="col-md-3"></div>
+    <div class="col-md-6 ">
+
+      <div class="widget-container boxed  animated zoomIn" style="margin-top:130px;">
+        <h3 class="widget-title">Login</h3>
+        <div class="inner padding">
+          <form ng-submit="login()">
+            <h5 for="">Usuario</h5>
+            <input class="form-control" type="text" name="usuario" placeholder="Usuario" ng-model="credenciales.usuario">
+            <div class="divider dashed"></div>
+            <h5 for="">Password</h5>
+            <input class="form-control" type="password" name="password" placeholder="Password" ng-model="credenciales.password">
+            <div class="divider dashed"></div>
+            <button type="submit" class="btn btn-block" style="float: none;">
+              <span>Login</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+
+</div>

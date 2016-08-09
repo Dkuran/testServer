@@ -1,0 +1,130 @@
+<div class="animated slideInLeft">
+
+    <div class="row">
+        <div class="col-sm-10">
+            <h1>Proveedores</h1>
+            <h2>Cree, Edite o Elimine Proveedores</h2>
+        </div>
+        <div class="col-sm-2">
+            <br>
+            <br>
+            <div class="btn btn-info" ng-click="ocultarBotonProveedor()" ng-hide="botones.Proveedor">Agregar Proveedor</div>
+            <div class="btn btn-warning" ng-click="ocultarBotonProveedor()" ng-show="botones.Proveedor">Ocultar</div>
+        </div>
+    </div>
+    <div class="row animated noticiaSlideInRight" ng-show="botones.Proveedor" style="background-color:white;">
+        <form ng-submit="crearProveedor()" name="proveedorForm">
+            <!--          NOMBRE-->
+            <div ng-show="proveedorForm.$submitted || proveedorForm.nombre.$touched">
+                <div ng-show="proveedorForm.nombre.$error.required" class="alert alert-danger animated bounceIn" role="alert">
+                    <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                    <span class="sr-only">Error:</span> Ingrese un NOMBRE.
+                </div>
+                <div ng-show="(proveedorForm.nombre.$error.minlength || proveedorForm.nombre.$error.maxlength)" class="alert alert-warning animated bounceIn" role="alert">
+                    <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                    <span class="sr-only">Error:</span> El NOMBRE debe de tener de 2 a 40 caracteres.
+                </div>
+            </div>
+
+            <!--          DIRECCION-->
+            <div ng-show="proveedorForm.$submitted || proveedorForm.tipo.$touched">
+                <div ng-show="proveedorForm.direccionPrincipal.$error.required" class="alert alert-danger animated bounceIn" role="alert">
+                    <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                    <span class="sr-only">Error:</span> Ingrese una DIRECCION.
+                </div>
+                <div ng-show="(proveedorForm.direccionPrincipal.$error.minlength || proveedorForm.direccionPrincipal.$error.maxlength)" class="alert alert-warning animated bounceIn" role="alert">
+                    <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                    <span class="sr-only">Error:</span> La DIRECCION debe de tener de 3 a 100 caracteres.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="nombre">Nombre Proveedor</label>
+                <input required ng-minlength="2" ng-maxlength="40" class="form-control" type="text" name="nombre" placeholder="Nombre Proveedor" ng-model="nuevoProveedor.nombre">
+            </div>
+
+            <div class="form-group">
+                <label for="direccionPrincipal">Direccion Principal</label>
+                <input ng-minlength="2" ng-maxlength="100" class="form-control" type="text" name="direccionPrincipal" placeholder="Direccion Principal" ng-model="nuevoProveedor.direccionPrincipal">
+            </div>
+
+            <div class="form-group">
+                <label for="direccionPrincipal">URL Imagen</label>
+                <input class="form-control" type="text" name="Url" placeholder="URL Imagen" ng-model="nuevoProveedor.Url">
+            </div>
+
+            <button ng-disabled="proveedorForm.$invalid" type="submit" class="btn btn-primary btn-block">Crear</button>
+
+        </form>
+        <br>
+        <br>
+    </div>
+    <div class="row">
+        <div style=" height: 300px; overflow-y: scroll;">
+
+
+            <h2>Tabla de proveedores</h2>
+            <table class="table table-bordered table-hover table-condensed">
+                <tr style="font-weight: bold; text-align: center;">
+                    <td>Nombre</td>
+                    <td>Direccion Principal</td>
+                    <td>Url Imagen</td>
+                    <td>Editar</td>
+                    <td>Categorias</td>
+                    <td>Sucursal</td>
+                </tr>
+                <tr ng-repeat="proveedor in proveedores">
+
+                    <td>
+                        <span editable-textarea="proveedor.nombre" e-name="nombre" e-form="editProform" e-required>
+                          {{ proveedor.nombre || 'Nombre Vacio' }}
+                        </span>
+                    </td>
+                    <td>
+                        <span editable-textarea="proveedor.direccionPrincipal" e-name="direccionPrincipal" e-form="editProform" e-required>
+                          {{ proveedor.direccionPrincipal || 'Direccion Vacio' }}
+                        </span>
+                        <td>
+                            <span editable-textarea="proveedor.Url" e-name="Url" e-form="editProform" e-required>
+                          <img class="center-block" ng-src="{{proveedor.Url}}" width="50px" height="50px">
+                        </span>
+                        </td>
+                        <td style="white-space: nowrap">
+                            <div ng-show="editProform.$visible">
+                                <form editable-form name="editProform" class="form-buttons form-inline" shown="inserted == proveedor" onaftersave="actualizarProveedor(proveedor)">
+                                    <button type="submit" ng-disabled="editProform.$waiting" class="btn btn-primary btn-xs">
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                    </button>
+
+                                </form>
+                                <button class="btn btn-danger btn-xs" ng-click="borrarProveedor(proveedor.id)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+
+
+                                <button type="button" ng-disabled="editProform.$waiting" ng-click="editProform.$cancel()" class="btn btn-default btn-xs">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </button>
+                            </div>
+
+                            <div class="buttons" ng-show="!editProform.$visible">
+                                <button class="btn btn-primary btn-xs" ng-click="editProform.$show()"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+
+                            </div>
+                        </td>
+                        <td width="10%">
+                            <a  href="#/publicidad/{{proveedor.id}}/categoria">
+                                <div class="btn btn-info btn-block btn-sm">Añadir Categoria</div>
+                            </a>
+                        </td>
+                        <td width="10%">
+                            <a  href="#/publicidad/{{proveedor.id}}/sucursal">
+                                <div class="btn btn-success btn-block btn-sm">Añadir Sucursal</div>
+                            </a>
+                        </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+</div>

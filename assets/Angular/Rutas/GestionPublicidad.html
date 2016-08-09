@@ -1,0 +1,165 @@
+<div class="animated slideInLeft">
+
+    <div class="row">
+        <img class="center-block" ng-src="{{proveedor.Url}}" width="200px" height="100px"></img>
+        <div class="col-sm-10">
+            <br>
+            <br>
+            <ol class="breadcrumb">
+                <li><a href="#/publicidad">Proveedores</a></li>
+                <li><a href="#/publicidad/{{proveedor.id}}/categoria">{{proveedor.nombre}}</a></li>
+                <li><a href="#/publicidad/{{proveedor.id}}/categoria/{{categoriaProveedor.id}}">{{categoriaProveedor.nombre}}</a></li>
+                <li>{{publicidad.nombre}}</li>
+            </ol>
+            <h2>Gestione la Activacion de la GestionPublicidad {{publicidad.nombre}}</h2>
+        </div>
+        <div class="col-sm-2">
+            <br>
+            <br>
+            <div class="btn btn-info" ng-click="ocultarBotonGestionPublicidad()" ng-hide="botones.gestionPublicidad ">Agregar GestionPublicidad</div>
+            <div class="btn btn-warning" ng-click="ocultarBotonGestionPublicidad()" ng-show="botones.gestionPublicidad">Ocultar</div>
+        </div>
+    </div>
+    <div >
+        <div class="row animated noticiaSlideInRight" ng-show="botones.gestionPublicidad" style="background-color:white;">
+        <form ng-submit="crearGestionPublicidad()" name="gestionPublicidadForm">
+<!---->
+            <!--          FECHA INICIO-->
+            <div ng-show="gestionPublicidadForm.$submitted || gestionPublicidadForm.fechaInicio.$touched">
+                <div ng-show="gestionPublicidadForm.fechaInicio.$error.required" class="alert alert-danger animated bounceIn" role="alert">
+                    <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                    <span class="sr-only">Error:</span> Ingrese una FECHA DE INICIO.
+                </div>
+            </div>
+
+            <!--          FECHA FIN-->
+            <div ng-show="gestionPublicidadForm.$submitted || gestionPublicidadForm.fechaFin.$touched">
+                <div ng-show="gestionPublicidadForm.fechaFin.$error.required" class="alert alert-danger animated bounceIn" role="alert">
+                    <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                    <span class="sr-only">Error:</span> Ingrese una FECHA DE FIN.
+                </div>
+            </div>
+            
+            <!--          Estado-->
+            <div ng-show="gestionPublicidadForm.$submitted || gestionPublicidadForm.estado.$touched">
+                <div ng-show="gestionPublicidadForm.estado.$error.required" class="alert alert-danger animated bounceIn" role="alert">
+                    <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                    <span class="sr-only">Error:</span> Seleccione un ESTADO.
+                </div>
+            </div>
+            
+            <!--          Sucursal-->
+            <div ng-show="gestionPublicidadForm.$submitted || gestionPublicidadForm.idSucursal.$touched">
+                <div ng-show="gestionPublicidadForm.idSucursal.$error.required" class="alert alert-danger animated bounceIn" role="alert">
+                    <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                    <span class="sr-only">Error:</span> Seleccione una SUCURSAL.
+                </div>
+            </div>
+
+
+
+
+            <div class="form-group">
+                <label for="nombre">Fecha Inicio</label>
+                <input required class="form-control" type="date" name="fechaInicio" placeholder="Fecha Inicio" ng-model="nuevoGestionPublicidad.fechaInicio">
+            </div>
+
+            <div class="form-group">
+                <label for="nombre">Fecha Fin</label>
+                <input required class="form-control" type="date" name="fechaFin" placeholder="Fecha Fin" ng-model="nuevoGestionPublicidad.fechaFin">
+            </div>
+
+            <div class="form-group">
+                <label for="tipo">Tipo Categoria</label>
+                <select required class="form-control" name="estado" ng-model="nuevoGestionPublicidad.estado">
+                    <option value="a">Activo</option>
+                    <option value="i">Inactivo</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="tipo">Tipo Categoria</label>
+                <select required class="form-control" name="idSucursal" ng-model="nuevoGestionPublicidad.idSucursal">
+                    <option ng-repeat="sucursal in sucursales" value={{sucursal.id}}>{{sucursal.nombre}}</option>
+                </select>
+            </div>
+
+            <button ng-disabled="gestionPublicidadForm.$invalid" type="submit" class="btn btn-primary btn-block">Crear</button>
+
+        </form>
+        <br>
+        <br>
+    </div>
+    </div>
+    
+    <div class="row">
+        <div style=" height: 300px; overflow-y: scroll;">
+
+
+            <h2>Tabla de GestionPublicidades</h2>
+            <table class="table table-bordered table-hover table-condensed">
+                <tr style="font-weight: bold; text-align: center;">
+                    <td>Nombre</td>
+                    <td>Fecha Inicio</td>
+                    <td>Fecha Fin</td>
+                    <td>Estado</td>
+                    <td>Sucursal</td>
+                    <td>Editar</td>
+                </tr>
+                <tr ng-repeat="gestionPublicidad in gestionPublicidades">
+
+                    <td>
+                        <span>
+                          {{gestionPublicidad.id}}{{ gestionPublicidad.idPublicidad.nombre}}
+                        </span>
+                    </td>
+                    
+                    <td>
+                        <span editable-date="gestionPublicidad.fechaInicio" e-name="fechaInicio" e-form="editPubliform" e-required>
+                          {{ gestionPublicidad.fechaInicio || 'Nombre Vacio' }}
+                        </span>
+                    </td>
+                    
+                    <td>
+                        <span editable-date="gestionPublicidad.fechaFin" e-name="fechaFin" e-form="editPubliform" e-required>
+                          {{ gestionPublicidad.fechaFin || 'Nombre Vacio' }}
+                        </span>
+                    </td>
+                    <td>
+                        <span editable-select="gestionPublicidad.estado" e-ng-options="s for s in estados" e-name="url" e-form="editPubliform" e-required>
+                         {{gestionPublicidad.estado}}
+                        </span>
+                    </td>
+                    <td>
+                        <span>
+                         {{gestionPublicidad.idSucursal.nombre}}
+                        </span>
+                    </td>
+                    <td style="white-space: nowrap">
+                        <div ng-show="editPubliform.$visible">
+                            <form editable-form name="editPubliform" class="form-buttons form-inline" shown="inserted == gestionPublicidad" onaftersave="actualizarGestionPublicidad(gestionPublicidad)">
+                                <button type="submit" ng-disabled="editPubliform.$waiting" class="btn btn-primary btn-xs">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </button>
+
+                            </form>
+                            <!--<button class="btn btn-danger btn-xs" ng-disabled="editPubliform.$waiting" ng-click="borrarGestionPublicidad(publicidad.id)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>-->
+
+                            <button type="button" ng-disabled="editPubliform.$waiting" ng-click="editPubliform.$cancel()" class="btn btn-default btn-xs">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </button>
+                        </div>
+
+                        <div class="buttons" ng-show="!editPubliform.$visible">
+                            <button class="btn btn-primary btn-xs" ng-click="editPubliform.$show()"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+</div>

@@ -1,0 +1,26 @@
+ <!--//arreglo de objetos-->
+                             $scope.usuarios = [{
+                             nombre:"Adrian",
+                             apellido:"Eguez",
+                             fechaNac:"2016-06-06",
+                             id:1},
+                             {
+                             nombre:"Adrian",
+                             apellido:"Eguez",
+                             fechaNac:"2016-06-06",
+                             id:1},
+                             {
+                             nombre:"Adrian",
+                             apellido:"Eguez",
+                             fechaNac:"2016-06-06",
+                             id:1},
+                             {
+                             nombre:"Adrian",
+                             apellido:"Eguez",
+                             fechaNac:"2016-06-06",
+                             id:1}
+                             ]
+                             ng-options="usuario.id as usuario.apellido usuario in usuarios"
+                             select value=id {{usuario.apellido}}
+                             
+                             ng-options="nombreVariable.valor as nombreVariable.nombreDesplegado nombreVariable in arreglo"

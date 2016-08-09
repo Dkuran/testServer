@@ -1,0 +1,133 @@
+<div class="animated slideInLeft">
+
+    <div class="row">
+        <img class="center-block" ng-src="{{proveedor.Url}}" width="200px" height="100px"></img>
+        <div class="col-sm-10">
+            <br>
+            <br>
+            <ol class="breadcrumb">
+                <li><a href="#/publicidad">Proveedores</a></li>
+                <li>{{proveedor.nombre}}</li>
+            </ol>
+            <h2>Cree, Edite o Elimine Categorias</h2>
+        </div>
+        <div class="col-sm-2">
+            <br>
+            <br>
+            <div class="btn btn-info" ng-click="ocultarBotonProveedorCategoria()" ng-hide="botones.proveedorCategoria">Agregar Categoria</div>
+            <div class="btn btn-warning" ng-click="ocultarBotonProveedorCategoria()" ng-show="botones.proveedorCategoria">Ocultar</div>
+        </div>
+    </div>
+    <div class="row animated noticiaSlideInRight" ng-show="botones.proveedorCategoria" style="background-color:white;">
+        <form ng-submit="crearProveedorCategoria()" name="proveedorCategoriaForm">
+            <!--          NOMBRE-->
+            <div ng-show="proveedorCategoriaForm.$submitted || proveedorCategoriaForm.nombre.$touched">
+                <div ng-show="proveedorCategoriaForm.nombre.$error.required" class="alert alert-danger animated bounceIn" role="alert">
+                    <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                    <span class="sr-only">Error:</span> Ingrese una DESCRIPCION.
+                </div>
+                <div ng-show="(proveedorCategoriaForm.nombre.$error.minlength || proveedorCategoriaForm.nombre.$error.maxlength)" class="alert alert-warning animated bounceIn" role="alert">
+                    <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                    <span class="sr-only">Error:</span> La DESCRIPCION debe de tener de 2 a 40 caracteres.
+                </div>
+            </div>
+
+            <!--          TIPO-->
+            <div ng-show="proveedorCategoriaForm.$submitted || proveedorCategoriaForm.tipo.$touched">
+                <div ng-show="proveedorCategoriaForm.tipo.$error.required" class="alert alert-danger animated bounceIn" role="alert">
+                    <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                    <span class="sr-only">Error:</span> Ingrese un TIPO.
+                </div>
+                <div ng-show="(proveedorCategoriaForm.tipo.$error.minlength || proveedorCategoriaForm.tipo.$error.maxlength)" class="alert alert-warning animated bounceIn" role="alert">
+                    <span aria-hidden="true"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                    <span class="sr-only">Error:</span> El TIPO debe de tener de 3 a 100 caracteres.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="nombre">Nombre Categoria</label>
+                <input required ng-minlength="2" ng-maxlength="40" class="form-control" type="text" name="nombre" placeholder="Nombre Categoria" ng-model="nuevoProveedorCategoria.nombre">
+            </div>
+
+            <div class="form-group">
+                <label for="tipo">Descripcion Categoria</label>
+                <input ng-minlength="2" ng-maxlength="100" class="form-control" type="text" name="tipo" placeholder="Descripcion Categoria" ng-model="nuevoProveedorCategoria.tipo">
+            </div>
+
+            <div class="form-group">
+                <label for="tipo">Tipo Categoria</label>
+                <select required class="form-control" ng-model="nuevoProveedorCategoria.idInteres">
+
+                    <option ng-repeat="interes in intereses" value={{interes.id}}>{{interes.nombre}}</option>
+                </select>
+            </div>
+
+            <button ng-disabled="proveedorCategoriaForm.$invalid" type="submit" class="btn btn-primary btn-block">Crear</button>
+
+        </form>
+        <br>
+        <br>
+    </div>
+    <div class="row">
+        <div style=" height: 300px; overflow-y: scroll;">
+
+
+            <h2>Tabla de proveedores</h2>
+            <table class="table table-bordered table-hover table-condensed">
+                <tr style="font-weight: bold; text-align: center;">
+                    <td>Nombre</td>
+                    <td>Descripcion</td>
+                    <td>Interes</td>
+                    <td>Editar</td>
+                    <td>Añadir Publicidad</td>
+                </tr>
+                <tr ng-repeat="proveedorCategoria in proveedorCategorias">
+
+                    <td>
+                        <span editable-textarea="proveedorCategoria.nombre" e-name="nombre" e-form="editProCatform" e-required>
+                          {{ proveedorCategoria.nombre || 'Nombre Vacio' }}
+                        </span>
+                    </td>
+                    <td>
+                        <span editable-textarea="proveedorCategoria.tipo" e-name="tipo" e-form="editProCatform" e-required>
+                          {{ proveedorCategoria.tipo || 'Direccion Vacio' }}
+                        </span>
+                    </td>
+                     <td>
+                        
+                          {{ proveedorCategoria.idInteres.nombre}}
+                        
+                    </td>
+                    <td style="white-space: nowrap">
+                        <div ng-show="editProCatform.$visible">
+                            <form editable-form name="editProCatform" class="form-buttons form-inline" shown="inserted == proveedorCategoria" onaftersave="actualizarProveedorCategoria(proveedorCategoria)">
+                                <button type="submit" ng-disabled="editProCatform.$waiting" class="btn btn-primary btn-xs">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                </button>
+
+                            </form>
+                            <button class="btn btn-danger btn-xs" ng-disabled="editProCatform.$waiting" ng-click="borrarProveedorCategoria(proveedorCategoria.id)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+
+                            <button type="button" ng-disabled="editProCatform.$waiting" ng-click="editProCatform.$cancel()" class="btn btn-default btn-xs">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </button>
+                        </div>
+
+                        <div class="buttons" ng-show="!editProCatform.$visible">
+                            <button class="btn btn-primary btn-xs" ng-click="editProCatform.$show()"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+
+                        </div>
+                    </td>
+                    <td width="10%">
+                        <a href="#/publicidad/{{stateParams.idProveedor}}/categoria/{{proveedorCategoria.id}}">
+                            <div class="btn btn-info btn-sm btn-block">Añadir Publicidad</div>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+</div>
